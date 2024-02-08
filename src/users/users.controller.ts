@@ -1,7 +1,8 @@
-import { Body, Controller, Header, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Header, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LocalAuthGuard } from 'src/auth/local.auth.guard';
+import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
 @Controller('users')
 export class UsersController {
@@ -17,7 +18,14 @@ export class UsersController {
     @Post('/login')
     @UseGuards(LocalAuthGuard)
     @HttpCode(HttpStatus.OK)
-    login(@Request() req){
-        return {user: req.user, msg: 'Logged in'}
+    login(@Request() req) {
+        return { user: req.user, msg: 'Logged in' }
+    };
+
+    @Get('/login-check')
+    @UseGuards(AuthenticatedGuard)
+    @HttpCode(HttpStatus.OK)
+    loginCheck(@Request() req) {
+        return req.user
     }
 }
