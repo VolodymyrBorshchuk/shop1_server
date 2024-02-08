@@ -24,8 +24,14 @@ export class UsersController {
 
     @Get('/login-check')
     @UseGuards(AuthenticatedGuard)
-    @HttpCode(HttpStatus.OK)
     loginCheck(@Request() req) {
         return req.user
-    }
+    };
+
+    @Get('/logout')
+    logout(@Request() req) {
+        req.session.destroy();
+        return { msg: 'Session has ended' }
+    };
+
 }
