@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { BoilerPartsService } from './boiler-parts.service';
 import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
@@ -28,5 +28,17 @@ export class BoilerPartsController {
     @Get('new')
     getNew() {
         return this.boilerPartsService.new();
+    }
+
+    @UseGuards(AuthenticatedGuard)
+    @Post('search')
+    search(@Body() { search }: { search: string }) {
+        return this.boilerPartsService.searchByString(search);
+    }
+
+    @UseGuards(AuthenticatedGuard)
+    @Post('name')
+    getByName(@Body() { name }: { name: string }) {
+        return this.boilerPartsService.findOneByName(name)
     }
 }
