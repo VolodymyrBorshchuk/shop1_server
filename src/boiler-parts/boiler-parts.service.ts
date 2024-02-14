@@ -29,7 +29,7 @@ export class BoilerPartsService {
             where: { new: true }
         })
     }
-    async findOne(id: number): Promise<BoilerParts> {
+    async findOne(id: number | string): Promise<BoilerParts> {
         return this.boilerPartsModel.findOne({
             where: { id },
         })
